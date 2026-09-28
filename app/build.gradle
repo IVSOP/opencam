@@ -1,0 +1,17 @@
+plugins { id 'com.android.application' }
+android {
+    namespace = 'dev.opencam.obs'
+    compileSdk = 36
+    defaultConfig {
+        applicationId = 'dev.opencam.obs'
+        minSdk = 26
+        targetSdk = 35
+        versionCode = 4
+        versionName = '0.1.3'
+    }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+    }
+    lint { abortOnError = true }
+}

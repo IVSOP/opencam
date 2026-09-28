@@ -1,0 +1,78 @@
+/tmp/droidcam_app/app/build.gradle:8: Warning: Not targeting the latest versions of Android; compatibility modes apply. Consider testing and updating this version. Consult the android.os.Build.VERSION_CODES javadoc for details. [OldTargetApi]
+        targetSdk = 35
+        ~~~~~~~~~~~~~~
+
+   Explanation for issues of type "OldTargetApi":
+   When your application or sdk runs on a version of Android that is more
+   recent than your targetSdk specifies that it has been tested with, various
+   compatibility modes kick in. This ensures that your application continues
+   to work, but it may look out of place. For example, if the targetSdk is
+   less than 14, your app may get an option button in the UI.
+
+   To fix this issue, set the targetSdk to the highest available value. Then
+   test your app to make sure everything works correctly. You may want to
+   consult the compatibility notes to see what changes apply to each version
+   you are adding support for:
+   https://developer.android.com/reference/android/os/Build.VERSION_CODES.html
+   as well as follow this guide:
+   https://developer.android.com/distribute/best-practices/develop/target-sdk.
+   html
+
+   https://developer.android.com/distribute/best-practices/develop/target-sdk.html
+
+/tmp/droidcam_app/app/src/main/AndroidManifest.xml:16: Warning: The attribute android:allowBackup is deprecated from Android 12 and higher and may be removed in future versions. Consider adding the attribute android:dataExtractionRules specifying an @xml resource which configures cloud backups and device transfers on Android 12 and higher. [DataExtractionRules]
+        android:icon="@drawable/ic_camera" android:allowBackup="false" android:supportsRtl="true">
+                                                                ~~~~~
+
+   Explanation for issues of type "DataExtractionRules":
+   Before Android 12, the attributes android:allowBackup and
+   android:fullBackupContent were used to configure all forms of backup,
+   including cloud backups, device-to-device transfers and adb backup.
+
+   In Android 12 and higher, these attributes have been deprecated and will
+   only apply to cloud backups. You should instead use the attribute
+   android:dataExtractionRules, specifying an @xml resource that configures
+   which files to back up, for cloud backups and for device-to-device
+   transfers, separately. If your minSdkVersion supports older versions,
+   you'll still want to specify an android:fullBackupContent resource if the
+   default behavior is not right for your app.
+
+   https://developer.android.com/about/versions/12/backup-restore#xml-changes
+   https://goo.gle/DataExtractionRules
+
+/tmp/droidcam_app/app/src/main/java/dev/opencam/obs/CameraService.java:58: Warning: Provide a timeout when requesting a wakelock with PowerManager.Wakelock.acquire(long timeout). This will ensure the OS will cleanup any wakelocks that last longer than you intend, and will save your user's battery. [WakelockTimeout]
+            wake.acquire(); // Released by every shutdown path; streaming must survive screen lock.
+            ~~~~~~~~~~~~~~
+
+   Explanation for issues of type "WakelockTimeout":
+   Wakelocks have two acquire methods: one with a timeout, and one without.
+   You should generally always use the one with a timeout. A typical timeout
+   is 10 minutes. If the task takes longer than it is critical that it happens
+   (i.e. can't use JobScheduler) then maybe they should consider a foreground
+   service instead (which is a stronger run guarantee and lets the user know
+   something long/important is happening).
+
+/tmp/droidcam_app/app/src/main/java/dev/opencam/obs/MainActivity.java:135: Warning: String literal in setText can not be translated. Use Android resources instead. [SetTextI18n]
+        microphone = new Switch(this); microphone.setText("Microphone"); microphone.setTextColor(INK); microphone.setTextSize(15);
+                                                          ~~~~~~~~~~~~
+/tmp/droidcam_app/app/src/main/java/dev/opencam/obs/MainActivity.java:188: Warning: String literal in setText can not be translated. Use Android resources instead. [SetTextI18n]
+        if (cameraIds.isEmpty()) { status.setText("No camera available"); return; }
+                                                  ~~~~~~~~~~~~~~~~~~~~~
+/tmp/droidcam_app/app/src/main/java/dev/opencam/obs/MainActivity.java:219: Warning: String literal in setText can not be translated. Use Android resources instead. [SetTextI18n]
+            if (allowed) begin(); else status.setText("Allow camera access in Android settings to stream");
+                                                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+   Explanation for issues of type "SetTextI18n":
+   When calling TextView#setText
+   * Never call Number#toString() to format numbers; it will not handle
+   fraction separators and locale-specific digits properly. Consider using
+   String#format with proper format specifications (%d or %f) instead.
+   * Do not pass a string literal (e.g. "Hello") to display text. Hardcoded
+   text can not be properly translated to other languages. Consider using
+   Android resource strings instead.
+   * Do not build messages by concatenating text chunks. Such messages can not
+   be properly translated.
+
+   https://developer.android.com/guide/topics/resources/localization.html
+
+0 errors, 6 warnings

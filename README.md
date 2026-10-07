@@ -71,6 +71,15 @@ export JAVA_HOME=/path/to/jdk-21
 
 Alternatively set `sdk.dir=/path/to/android-sdk` in an untracked `local.properties`. To publish, configure your own release signing key; do not distribute a debug key as a production key.
 
+For an optimized release APK, use the same SDK and JDK environment and run:
+
+```sh
+./gradlew assembleRelease lintRelease
+# APK: app/build/outputs/apk/release/app-release-unsigned.apk
+```
+
+Release builds enable R8 code optimization and resource shrinking. Debug builds keep these disabled. Release signing is not configured, so sign the release APK with your own key before installing or distributing it. Keep `app/build/outputs/mapping/release/mapping.txt` with each released APK to translate obfuscated crash stack traces. Test video, audio, discovery and reconnection on a physical phone after optimization.
+
 ## Verify compatibility
 
 ```sh

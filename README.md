@@ -4,6 +4,8 @@ A small, independent Android camera app for the **existing DroidCam OBS plugin**
 
 The implementation was derived from the public OBS receiver in `../droidcam-obs-plugin`; no Android APK was decompiled. The OBS plugin does not need changes.
 
+<img src="docs/emulator-preview.png" alt="OpenCam connected to OBS, showing the camera preview, stream statistics, and camera controls on an Android emulator" width="360">
+
 ## Install and connect
 
 Requires **Android 8.0 or later**. Install the provided [`dist/opencam-debug.apk`](dist/opencam-debug.apk), or build it below. This is a debug-signed development build, not a store release.
